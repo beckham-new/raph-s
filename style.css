@@ -11,13 +11,22 @@
 * { margin: 0; padding: 0; box-sizing: border-box; }
 
 
+/* --- Optimasi Performa Hardware --- */
+* {
+    -webkit-tap-highlight-color: transparent;
+    /* Mencegah perhitungan ulang layout yang berat di HP */
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+}
+
 body {
     margin: 0;
     padding: 0;
     color: var(--persian-orange);
     font-family: 'Inter', sans-serif;
     overflow-x: hidden;
-    /* Gradasi dibuat sedikit lebih gelap agar rasi bintang lebih menonjol */
+    /* Gunakan min-height dvh (dynamic viewport height) agar fit dengan toolbar browser HP */
+    min-height: 100dvh; 
     background: 
         linear-gradient(
             180deg, 
@@ -26,12 +35,16 @@ body {
             rgba(53, 59, 86, 0.9) 100%  
         ),
         url('assets/images/background-berdua.png'); 
-    background-attachment: fixed;
+    background-attachment: scroll; /* UBAH: fixed di HP bikin sangat lag, gunakan scroll */
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
 }
 
+/* Khusus Desktop tetap boleh fixed */
+@media (min-width: 1024px) {
+    body { background-attachment: fixed; }
+}
 /* --- Typography & Branding --- */
 
 h1 { 
@@ -720,20 +733,40 @@ footer {
     font-size: 1.4rem;
 }
 
-/* Overlay Styling */
-/* Overlay Surat Premium */
-.overlay {
-    position: fixed;
-    top: 0; left: 0; width: 100%; height: 100%;
-    background: rgba(0, 0, 0, 0.7); /* Background gelap transparan */
-    backdrop-filter: blur(15px) saturate(150%); /* Blur kaca yang manis */
-    display: none;
-    justify-content: center;
-    align-items: center;
-    z-index: 9999;
-    padding: 20px;
+/* --- Optimasi Performa Hardware --- */
+* {
+    -webkit-tap-highlight-color: transparent;
+    /* Mencegah perhitungan ulang layout yang berat di HP */
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
 }
 
+body {
+    margin: 0;
+    padding: 0;
+    color: var(--persian-orange);
+    font-family: 'Inter', sans-serif;
+    overflow-x: hidden;
+    /* Gunakan min-height dvh (dynamic viewport height) agar fit dengan toolbar browser HP */
+    min-height: 100dvh; 
+    background: 
+        linear-gradient(
+            180deg, 
+            rgba(37, 18, 17, 0.9) 0%,   
+            rgba(45, 36, 53, 0.75) 50%,  
+            rgba(53, 59, 86, 0.9) 100%  
+        ),
+        url('assets/images/background-berdua.png'); 
+    background-attachment: scroll; /* UBAH: fixed di HP bikin sangat lag, gunakan scroll */
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+/* Khusus Desktop tetap boleh fixed */
+@media (min-width: 1024px) {
+    body { background-attachment: fixed; }
+}
 .letter-content {
     background: rgba(255, 255, 255, 0.05);
     padding: 60px 40px;
@@ -814,25 +847,36 @@ footer {
     margin-top: 50px;
 }
 
+/* --- Optimasi Foto Jam --- */
 .clock-circle {
-    position: relative;
-    width: 250px;
-    height: 250px;
+    width: 220px; /* Diperkecil sedikit agar manis */
+    height: 220px;
     border-radius: 50%;
-    border: 3px solid var(--earth-yellow);
-    box-shadow: 0 0 30px rgba(251, 180, 94, 0.3);
-    overflow: hidden; /* Foto tetap di dalam lingkaran */
-    background: var(--licorice);
+    overflow: hidden;
+    will-change: transform;
 }
 
 .clock-image {
     width: 100%;
     height: 100%;
-    object-fit: cover;
-    opacity: 0.6; /* Membuat foto sedikit gelap agar jarum jam terlihat */
-    transition: 0.5s;
+    object-fit: cover; /* KUNCI: Foto akan fit secara cerdas */
+    object-position: center;
+    opacity: 0.7;
 }
 
+/* --- Optimasi Cosmic Moment di HP --- */
+@media (max-width: 768px) {
+    .main-photo {
+        max-width: 100%;
+        border-radius: 20px;
+    }
+    
+    .photo-frame {
+        padding: 8px;
+        border-radius: 25px;
+        width: 90%; /* Agar tidak menabrak pinggir layar HP */
+    }
+}
 .clock-circle:hover .clock-image {
     opacity: 0.9;
     transform: scale(1.1);
